@@ -10,19 +10,20 @@ import vo.*;
 
 public class FreeDao {
 
-	private static FreeDao freeDao;
+	private static FreeDao freeDao; // 인스턴스를 하나만 만들기 위해 static으로 선언
 	private Connection conn;
 	
-	private FreeDao() {}
+	private FreeDao() {} // 기본생성자로 외부에서 함부로 생성하지 못하게 private으로 선언
 	
 	public static FreeDao getInstance() {
-		if(freeDao == null) {
-			freeDao = new FreeDao();
+	// FreeDao의 인스턴스를 생성시켜 리턴하는 메소드로 인스턴스 없이 외부에서 접근할 수 있도록 static으로 선언
+		if(freeDao == null) {	// 현재 생성된 인스턴스가 없으면
+			freeDao = new FreeDao();	// 새롭게 인스턴스를 생성
 		}
 		return freeDao;
 	}
 
-	public void setConnection(Connection conn) {
+	public void setConnection(Connection conn) { // 현 클래스의 DB작업을 위해 Connection 객체를 받아오는 메소드
 		this.conn = conn;
 	}
 	
@@ -37,7 +38,8 @@ public class FreeDao {
 			sql ="select count(*) from t_free_list where fl_status ='a' " + where;
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
-			if(rs.next()) result = rs.getInt(1);
+			if(rs.next()) result = rs.getInt(1); // if 없어도됨
+			// 검색된 게시물의 개수를 result에 담음
 		}catch(Exception e){
 			System.out.println("getArticleCount() 오류");
 		}finally {
@@ -54,16 +56,18 @@ public class FreeDao {
 		ArrayList<FreeInfo> articleList = new ArrayList<FreeInfo>();
 		// 검색 결과를 저장할 ArrayList객체
 		FreeInfo freeInfo = null;	// articleList에 담을 레코드를 저장할 인스턴스
-		int snum = (cpage - 1) * limit; // limit명령에서 데이터를 가져올 시작 인덱스 번호
+		int snum = (cpage - 1) * limit; //쿼리의  limit명령에서 데이터를 가져올 시작 인덱스 번호
 		
 		try {
 			sql = "select * from t_free_list where fl_status = 'a' " + 
-				where + " order by fl_idx desc limit " + snum + ", " + limit;
+				where + " order by fl_idx desc limit " + snum + ", " + limit; // 정렬은 프라이머리키로
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			while(rs.next()) {
+			// rs가 비었을 경우 그냥 빈 상태로 리턴하기 위해 if를 사용하지 않고 바로 while을 사용
 				freeInfo = new FreeInfo();
 				// 하나의 레코드(게시글)을 저장할 인스턴스 생성
+				
 				freeInfo.setFl_idx(rs.getInt("fl_idx"));
 				freeInfo.setFl_reply(rs.getInt("fl_reply"));
 				freeInfo.setFl_read(rs.getInt("fl_read"));
@@ -77,7 +81,7 @@ public class FreeDao {
 				freeInfo.setFl_date(rs.getString("fl_date"));
 				freeInfo.setFl_status(rs.getString("fl_status"));
 				freeInfo.setFl_ip(rs.getString("fl_ip"));
-				// 받아온 레코드들로 freeInfo인스턴스에 변수값을 넣음
+				// 받아온 레코드들로 freeInfo인스턴스에 멤버변수 값을 넣음
 				
 				articleList.add(freeInfo);
 				// 생성된 FreeInfo형 인스턴스를 articleList 하나씩 저장
@@ -192,7 +196,7 @@ public class FreeDao {
 			} else {
 				where += "'y' and fl_writer = '" + uid + "'";				
 			}
-			sql = "select * from t_free_list where and fl_status = 'a'  fl_idx = " +
+			sql = "select * from t_free_list where fl_status = 'a' and fl_idx = " +
 				idx  + where;
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);

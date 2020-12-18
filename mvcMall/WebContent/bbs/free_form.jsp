@@ -48,7 +48,7 @@ if (wtype.equals("in")) {
 %>
 <tr>
 <th>제목</th>
-<td colspan="3"><input type="text" name="title" size="60" value="<%= title %>" /></td>
+<td colspan="3"><input type="text" name="title" size="58" value="<%= title %>" /></td>
 </tr>
 <tr>
 <th>내용</th>

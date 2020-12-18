@@ -11,7 +11,8 @@ public class FreeFormAction implements Action{
 		request.setCharacterEncoding("utf-8");
 		String wtype = request.getParameter("wtype");
 		ActionForward forward = new ActionForward();
-		if(wtype.equals("up")) {	// 글 수정이면			
+		
+		if(wtype.equals("up")) {	// 글 수정이면 (등록의 경우 따로 진행할 작업이 없음)			
 			HttpSession session = request.getSession();
 			// JSP가 아니므로 HttpSession인스턴스를 직접 만들어야 함
 			MemberInfo loginMember = (MemberInfo)session.getAttribute("loginMember");
@@ -30,11 +31,13 @@ public class FreeFormAction implements Action{
 				request.setAttribute("article", article);
 				// 수정할 게시글 데이터를 request객체에 담음
 			} else {
+				response.setContentType("text/html;charset=utf-8");
 				PrintWriter out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('비밀번호가 틀렸습니다.')");
 				out.println("history.back();");
 				out.println("</script>");
+				out.close();
 			}
 		} 
 		forward.setPath("/bbs/free_form.jsp");

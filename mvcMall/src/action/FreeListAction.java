@@ -23,8 +23,8 @@ public class FreeListAction implements Action {
 		String keyword = request.getParameter("keyword");
 		// 검색어 
 		
-		String where = "";
-		if(schtype != null && keyword != null && !keyword.equals("")) {
+		String where = ""; // 쿼리 작업시 사용할 조건을 저장할 변수
+		if(/* schtype != null && */ keyword != null && !keyword.equals("")) {
 		// 검색조건과 검색어가 있으면
 			if (schtype.equals("tc")) {	// 검색 조건이 '제목+내용' 이면
 				where = " and (fl_title like '%" + keyword + "%' " + 
@@ -34,20 +34,22 @@ public class FreeListAction implements Action {
 			}
 		}
 		FreeListSvc freeListSvc = new FreeListSvc();
+		// 게시판 목록을 위한 비즈니스 로직을 처리하기 위해 FreeListSvc 인스턴스 생성
+		
 		int rcnt = freeListSvc.getArticleCount(where);
 		// 총 레코드 개수를 받아옴(전체 페이지수를 계산하기 위해)
 		
 		articleList = freeListSvc.getArticleList(where, cpage, limit);
 		// 목록화면에서 보여줄 게시글 목록을 ArrayList형으로 받아옴
 		
+		//--------------- ** 페이징 ** --------------------------
 		int pcnt = rcnt / limit;
 		if(rcnt % limit > 0 ) pcnt++;
-		//전체 페이지수 구함
-		
+		//전체 페이지수 구함		
 		int spage = (cpage - 1) / limit * limit + 1;
 		// 블록 시작페이지 번호
 		int epage = spage + limit - 1;
-		if (epage < pcnt) epage = pcnt;
+		if (epage < pcnt)	epage = pcnt;
 		//블록 종료페이지 번호
 		
 		PageInfo pageInfo = new PageInfo();
@@ -63,10 +65,10 @@ public class FreeListAction implements Action {
 
 		request.setAttribute("pageInfo", pageInfo);
 		request.setAttribute("articleList", articleList);
-		//free_list.jsp로 request를 통해 전달해줄 객체 저장
+		//free_list.jsp로 request를 통해 전달해줄 객체를 request에 저장
 		
 		ActionForward forward = new ActionForward();
-		forward.setPath("/bbs/free_list.jsp");
+		forward.setPath("/bbs/free_list.jsp"); // 이동할 페이지의 URL을 forward인스턴스에 저장
 		return forward;
 	}
 }

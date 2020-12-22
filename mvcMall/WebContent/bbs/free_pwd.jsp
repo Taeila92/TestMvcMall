@@ -6,13 +6,11 @@ request.setCharacterEncoding("utf-8");
 String wtype = request.getParameter("wtype");
 int idx = Integer.parseInt(request.getParameter("idx"));
 // 글번호로 반드시 받아와야 하는 값이며, 정수형으로 형변환이 가능한 값임
-
-int cpage = Integer.parseInt(request.getParameter("cpage"));// 페이지 번호
+int cpage = Integer.parseInt(request.getParameter("cpage"));
 String args = "?cpage=" + cpage;
-
 String schtype = request.getParameter("schtype");
 String keyword = request.getParameter("keyword");
-if (keyword != null && !keyword.equals("")){
+if (keyword != null && !keyword.equals("")) {
 	args += "&schtype=" + schtype + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
 }
 
@@ -40,7 +38,7 @@ if (wtype.equals("up")) {
 <body>
 <h2>비밀번호 입력 폼</h2>
 <form name="frmPwd" action="<%=link %>" method="post">
-<input type="hidden" name="mem" value="n" /><!-- 비회원 글 체크값 -->
+<input type="hidden" name="ismember" value="n" /><!-- 비회원 글 체크값 -->
 <input type="hidden" name="idx" value="<%=idx %>" />
 <table cellpadding="5">
 <tr><th>비밀번호</th><td><input type="password" name="pwd" /></td></tr>

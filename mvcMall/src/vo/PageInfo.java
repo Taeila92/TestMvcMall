@@ -1,7 +1,7 @@
 package vo;
 
 public class PageInfo {
-//게시판 페이징에 필요한 변수들을 저장할 클래스
+// 게시판 페이징에 필요한 변수들을 저장할 클래스
 	private int cpage, pcnt, spage, epage, rcnt;
 	// 현재 페이지번호, 페이지수, 시작페이지, 종료페이지, 게시글수
 	private String schtype, keyword;
@@ -61,5 +61,4 @@ public class PageInfo {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
-	
 }

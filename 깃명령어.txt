@@ -1,0 +1,16 @@
+git init 폴더 생성후 폴더경로로 이동
+
+ git remote add origin 'url'
+ 가져올 깃허브 주소
+
+---------- 위까지 한번했으면 다시할 필요 없음 ---------------
+
+git status 상태확인
+
+git add 파일이름 or  . or   *.확장자 추가할 파일확인
+
+git commit -m "입력할 메세지" 올리기전 상황
+
+git push origin master 깃 저장소에 올림
+
+git pull origin master 가져온 주소를 폴더로 저장

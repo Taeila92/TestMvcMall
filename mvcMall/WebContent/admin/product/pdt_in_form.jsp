@@ -16,21 +16,29 @@ ArrayList<BrandInfo> brandList = (ArrayList<BrandInfo>)request.getAttribute("bra
 <title>Insert title here</title>
 <script>
 <%
-String scName = null;
-int k = 0, bc = 0, sc = 0;
+String scName = null;	// 분류명을 저장할 변수
+int bc = 0, sc = 0;
+// bc : 대분류 idx를 저장하기 위한 변수로 배열의 이름으로 사용됨
+// sc : 소분류 idx를 저장하기 위한 변수로 배열의 이름으로 사용됨
 for (int i = 0, j = 1 ; i < cataSmallList.size() ; i++, j++) {
+	// i : cataSmallList 에 들어있는 데이터의 개수만큼 루프를 돌리며 cataSmallList의 인덱스로 사용하기 위한 변수
+	// j : cataSmallList 의 값을 배열에 넣을 때 사용하기위한 인덱스 번호를 저장하는 변수
 	if (bc != cataSmallList.get(i).getCb_idx()) {
-		j = 1;
+	// 기존 대분류 idx(bc)와 현재 대분류 idx가 다르면 배열을 새롭게 생성
+		j = 1;	// 새롭게 생성할 배열에 값을 넣을 때 사용할 인덱스 번호 초기화
 %>
-var arr<%=cataSmallList.get(i).getCb_idx()%> = new Array();
+var arr<%=cataSmallList.get(i).getCb_idx()%> = new Array(); // = out.print 대용
+// 대분류 idx를 이용하여 유니크한 이름의 배열을 생성
 arr<%=cataSmallList.get(i).getCb_idx()%>[0] = new Option("", "소분류 선택");
+// 배열의 0번 인덱스에 콤보박스의 제일 위에서 보여줄 option 아이템을 지정
 <%
 	}
-	bc = cataSmallList.get(i).getCb_idx();
-	sc = cataSmallList.get(i).getCs_idx();
-	scName = cataSmallList.get(i).getCs_name();
+	bc = cataSmallList.get(i).getCb_idx();	// 대분류 idx를 bc에 저장
+	sc = cataSmallList.get(i).getCs_idx();	// 소분류 idx를 sc에 저장
+	scName = cataSmallList.get(i).getCs_name();		// 대분류명를 scName에 저장
 %>
 arr<%=bc%>[<%=j%>] = new Option("<%=sc%>", "<%=scName%>");
+// 소분류 콤보박스용 배열에 콤보박스에서 사용할 옵션태그를 생성하여 저장
 <%
 }
 %>
@@ -121,7 +129,7 @@ function setCategory(obj, target) {
 <td>
 	<select name="stock">
 		<option value="-1">무제한</option>
-<% for (int i = 1 ; i <= 100 ; i++) { %>
+<% for (int i = 0 ; i <= 100 ; i++) { %>
 		<option value="<%=i%>"><%=i%></option>
 <% } %>
 	</select> EA

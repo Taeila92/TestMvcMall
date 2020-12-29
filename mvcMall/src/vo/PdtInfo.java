@@ -2,7 +2,7 @@ package vo;
 
 public class PdtInfo {
 // 하나의 상품정보를 저장할 클래스
- private String pl_id, pl_orig, pl_name, pl_opt, pl_img1, pl_img2, pl_img3, pl_desc, pl_deliv, pl_view, pl_date;
+ private String pl_id, pl_orig, pl_name, pl_opt, pl_img1, pl_img2, pl_img3, pl_desc, pl_deliv, pl_view, pl_date, cb_name, cs_name;
  private int cs_idx, bl_idx, pl_price, pl_cost, pl_discount, pl_stock, pl_salecnt, pl_review, al_idx;
 public String getPl_id() {
 	return pl_id;
@@ -70,6 +70,18 @@ public String getPl_date() {
 public void setPl_date(String pl_date) {
 	this.pl_date = pl_date;
 }
+public String getCb_name() {
+	return cb_name;
+}
+public void setCb_name(String cb_name) {
+	this.cb_name = cb_name;
+}
+public String getCs_name() {
+	return cs_name;
+}
+public void setCs_name(String cs_name) {
+	this.cs_name = cs_name;
+}
 public int getCs_idx() {
 	return cs_idx;
 }
@@ -123,6 +135,6 @@ public int getAl_idx() {
 }
 public void setAl_idx(int al_idx) {
 	this.al_idx = al_idx;
-} 
+}
 
 }

@@ -36,8 +36,13 @@ public class ProductCtrl extends HttpServlet {
 		
 		switch (command) {
 		case "/pdt_in_form.pdta" :		// 상품 등록 폼
-			action = new PdtInFormAction();
-			break;
+			action = new PdtInFormAction();		break;
+		case "/pdt_in_proc.pdta" :		// 상품 등록 처리
+			action = new PdtInProcAction();		break;
+		case "/pdt_list.pdta" :			// 상품 목록 화면
+			action = new PdtListAction();		break;
+		case "/pdt_view.pdta" :			// 상품 보기 화면
+			action = new PdtViewAction();		break;
 		}
 		try {
 			forward = action.execute(request, response);

@@ -53,8 +53,7 @@ public class FreeDao {
 		return result;
 	}
 
-	public ArrayList<FreeInfo> getArticleList(
-		String where, int cpage, int limit) {
+	public ArrayList<FreeInfo> getArticleList(String where, int cpage, int limit) {
 	// 검색된 게시글 목록을 ArrayList형태로 리턴하는 메소드
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -224,31 +223,32 @@ public class FreeDao {
 
 		return result;
 	}
+
 	public int freeDelete(FreeInfo freeInfo) {
-		// 게시글 삭제를 위한 메소드
-			Statement stmt = null;
-			String sql = null;
-			int result = 0;		// 쿼리 실행 결과 개수를 저장할 변수
+	// 게시글 삭제를 위한 메소드
+		Statement stmt = null;
+		String sql = null;
+		int result = 0;		// 쿼리 실행 결과 개수를 저장할 변수
 
-			try {
-				String where = " where fl_idx = " + freeInfo.getFl_idx();
-				if (freeInfo.getFl_ismember().equals("y")) { // 회원글인 경우
-					where += " and fl_writer = '"+ freeInfo.getFl_writer() + "' ";
-				}else {	// 비회원 글인 경우
-					where += " and fl_pwd = '" + freeInfo.getFl_pwd() + "' ";
-				}
-				sql = "update t_free_list set fl_status = 'b' " + where;
-				stmt = conn.createStatement();
-				result = stmt.executeUpdate(sql);	
-			} catch(Exception e) {
-				System.out.println("freeDelete() 오류");
-				e.printStackTrace();
-			} finally {
-				close(stmt);
-			}
+		try {
+			String where = " where fl_idx = " + freeInfo.getFl_idx();
+			if (freeInfo.getFl_ismember().equals("y"))	// 회원글인 경우
+				where += " and fl_writer = '" + freeInfo.getFl_writer() + "' ";
+			else	// 비회원 글인 경우
+				where += " and fl_pwd = '" + freeInfo.getFl_pwd() + "' ";
+			sql = "update t_free_list set fl_status = 'b' " + where;
+			stmt = conn.createStatement();
+			result = stmt.executeUpdate(sql);
 
-			return result;
+		} catch(Exception e) {
+			System.out.println("freeUpdate() 오류");
+			e.printStackTrace();
+		} finally {
+			close(stmt);
 		}
+
+		return result;
+	}
 
 	public FreeInfo getArticleUp(int idx, String ismember, String uid, String pwd) {
 	// 수정할 글에 대한 권한이 있을 경우 해당 데이터를 가져와 리턴할 메소드
@@ -267,6 +267,7 @@ public class FreeDao {
 				where += "'y' and fl_writer = '" + uid + "'";
 			}
 			sql = "select * from t_free_list where fl_status = 'a' and fl_idx = " + idx + where;
+			System.out.println(sql);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			if (rs.next()) {
@@ -293,6 +294,7 @@ public class FreeDao {
 		} finally {
 			close(rs);	close(stmt);
 		}
+		
 		return article;
 	}
 }

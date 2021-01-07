@@ -1,6 +1,6 @@
 package admin.action;
 
-import javax.servlet.http.*;
+import javax.servlet.http.*;	// 받아 온 request와 response를 위해 import
 import java.io.PrintWriter;
 import java.util.*;
 import admin.svc.*;
@@ -9,13 +9,12 @@ import vo.*;
 public class PdtInFormAction implements action.Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = new ActionForward();
-		
 		PdtInFormSvc pdtInFormSvc = new PdtInFormSvc();
 		// 대분류, 소분류, 브랜드 목록을 가져오기 위한 Svc클래스
-		ArrayList<CataBigInfo> cataBigList = pdtInFormSvc.getCataBigList();		// 대분류목록
-		ArrayList<CataSmallInfo> cataSmallList = pdtInFormSvc.getCataSmallList();	// 소분류목록
-		ArrayList<BrandInfo> brandList = pdtInFormSvc.getBrandList();			// 브랜드목록
-		
+		ArrayList<CataBigInfo> cataBigList = pdtInFormSvc.getCataBigList();			// 대분류 목록
+		ArrayList<CataSmallInfo> cataSmallList = pdtInFormSvc.getCataSmallList();	// 소분류 목록
+		ArrayList<BrandInfo> brandList = pdtInFormSvc.getBrandList();				// 브랜드 목록
+
 		if (cataBigList != null && cataSmallList != null && brandList != null) {
 			request.setAttribute("cataBigList", cataBigList);
 			request.setAttribute("cataSmallList", cataSmallList);

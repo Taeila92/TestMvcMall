@@ -3,7 +3,8 @@ package vo;
 public class CataBigInfo {
 // 대분류 정보를 저장할 클래스
 	private String cb_name, cb_date;
-	private int cb_idx ;
+	private int cb_idx;
+
 	public String getCb_name() {
 		return cb_name;
 	}
@@ -22,5 +23,4 @@ public class CataBigInfo {
 	public void setCb_idx(int cb_idx) {
 		this.cb_idx = cb_idx;
 	}
-	
 }

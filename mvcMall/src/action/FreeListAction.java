@@ -7,8 +7,7 @@ import vo.*;
 
 public class FreeListAction implements Action {
 // 게시글 목록을 받아와 연결하는 클래스
-	public ActionForward execute(HttpServletRequest request, 
-			HttpServletResponse response) throws Exception {
+	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ArrayList<FreeInfo> articleList = new ArrayList<FreeInfo>();
 		// 게시글 목록을 저장할 ArrayList객체로 FreeInfo형 인스턴스만 저장함
 

@@ -40,8 +40,12 @@ public class LoginCtrl extends HttpServlet {
 			// JSP와 다르게 서블릿에서는 세션을 사용하기 위해 직접 세션 인스턴스를 생성해야 함
 			session.setAttribute("loginMember", loginMember);
 			// 로그인 상태를 유지하기 위해 세션 속성으로 저장
-			response.sendRedirect("index.jsp");
-			// 서버에서 index.jsp로 응답을 보냄
+
+			String url = (String)session.getAttribute("url");
+			// 로그인 후 특정 페이지로 이동하기 위한 주소를 받아옴
+			session.removeAttribute("url");		// 이동 후에는 url 세션 속성을 삭제
+			if (url == null)	url = "index.jsp";
+			response.sendRedirect(url);
 		} else {	// 로그인 실패시
 			response.setContentType("text/html;charset=utf-8");
 			// 응답하는 페이지의 타입을 text나 html로 지정 - 유니코드

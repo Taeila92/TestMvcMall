@@ -8,7 +8,7 @@ MemberInfo loginMember = (MemberInfo)session.getAttribute("loginMember");
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>mvcMall</title>
 </head>
 <body>
 <%
@@ -26,9 +26,11 @@ if (loginMember==null){
 %>
 <hr/>
 <a href="brd_list.free">자유 게시판</a><br/>
-
 <hr/>
-<a href="pdt_in_form.pdta">상품등록-백엔드</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="pdt_list.pdta">상품목록-백엔드</a><br/>
+<hr/>
+<a href="pdt_list.pdt">상품목록-프론트</a><br/>
+<hr/>
+<a href="cart_list.ord">장바구니-프론트</a><br/>
 </body>
 </html>

@@ -59,6 +59,7 @@ public class FreeProcSvc {
 		} else {
 			rollback(conn);
 		}
+
 		close(conn);
 		return isSuccess;
 	}

@@ -13,7 +13,7 @@ public class PdtInProcSvc {
 		PdtDao pdtDao = PdtDao.getInstance();
 		pdtDao.setConnection(conn);
 		int result = pdtDao.pdtInsert(pdt);
-		if (result > 0 ) {
+		if (result > 0) {
 			isSuccess = true;
 			commit(conn);
 		} else {

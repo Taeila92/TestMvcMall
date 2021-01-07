@@ -24,8 +24,9 @@ public class ProductCtrl extends HttpServlet {
     public ProductCtrl() {
         super();
     }
-    protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	// 사용자의 요청이 get이든 post이든 모두 처리하는 메소드
+
+	protected void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	// 사용자의 요청이 get이든 post이든 모두 처리하는 메소드
 		request.setCharacterEncoding("utf-8");
 		String requestUri = request.getRequestURI();
 		String contextPath = request.getContextPath();
@@ -33,17 +34,25 @@ public class ProductCtrl extends HttpServlet {
 
 		ActionForward forward = null;
 		Action action = null;
-		
+
+		// 사용자의 요청 종류에 따라 각각 다른 action을 취함
 		switch (command) {
-		case "/pdt_in_form.pdta" :		// 상품 등록 폼
-			action = new PdtInFormAction();		break;
-		case "/pdt_in_proc.pdta" :		// 상품 등록 처리
-			action = new PdtInProcAction();		break;
-		case "/pdt_list.pdta" :			// 상품 목록 화면
-			action = new PdtListAction();		break;
-		case "/pdt_view.pdta" :			// 상품 보기 화면
-			action = new PdtViewAction();		break;
+			case "/pdt_in_form.pdta" :		// 상품 등록 폼
+				action = new PdtInFormAction();		break;
+			case "/pdt_in_proc.pdta" :		// 상품 등록 처리
+				action = new PdtInProcAction();		break;
+			case "/pdt_list.pdta" :			// 상품 목록 화면
+				action = new PdtListAction();		break;
+			case "/pdt_view.pdta" :			// 상품 보기 화면
+				action = new PdtViewAction();		break;
+			case "/pdt_up_form.pdta" :		// 상품 수정 폼
+				action = new PdtUpFormAction();		break;
+			case "/pdt_up_proc.pdta" :		// 상품 수정 처리
+				action = new PdtUpProcAction();		break;
+			case "/pdt_del_proc.pdta" :		// 상품 삭제 처리
+				action = new PdtDelProcAction();	break;
 		}
+
 		try {
 			forward = action.execute(request, response);
 		} catch (Exception e) {
@@ -58,9 +67,9 @@ public class ProductCtrl extends HttpServlet {
 					request.getRequestDispatcher(forward.getPath());
 				dispatcher.forward(request, response);
 			}
-		}		
-    }
-    
+		}
+	}
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcess(request, response);
 	}

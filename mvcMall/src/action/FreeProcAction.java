@@ -15,7 +15,7 @@ public class FreeProcAction implements Action {
 		String wtype = request.getParameter("wtype");
 		FreeInfo freeInfo = new FreeInfo();
 		// 사용자가 입력한 데이터(게시글)들을 저장할 인스턴스
-		
+
 		freeInfo.setFl_ismember(request.getParameter("ismember"));
 		if (wtype.equals("in") || wtype.equals("up")) {
 		// 글등록이나 수정일 경우 게시글 데이터들을 받아옴
@@ -71,15 +71,14 @@ public class FreeProcAction implements Action {
 				// freeInfo 인스턴스의 writer 값을 현재 로그인한 회원의 아이디로 저장
 			}
 			isSuccess = freeProcSvc.freeDelete(freeInfo);
-			if(!isSuccess) { // 삭제 실패시
+			if (!isSuccess) {	// 삭제 실패시
+				response.setContentType("text/html;charset=utf-8");
 				PrintWriter out = response.getWriter();
 				out.println("<script>");
 				if (freeInfo.getFl_ismember().equals("y")) {
 					out.println("alert('잘못된 경로로 들어오셨습니다.');");
-					
 				} else {
 					out.println("alert('비밀번호가 틀렸습니다.');");
-					
 				}
 				out.println("history.back();");
 				out.println("</script>");
@@ -88,7 +87,7 @@ public class FreeProcAction implements Action {
 			link = "brd_list.free";
 		}
 
-		if (isSuccess) { // 성공시
+		if (isSuccess) {	// 성공시
 			forward = new ActionForward();
 			forward.setRedirect(true);	// 이동방식을 redirect로 하겠다는 의미
 			forward.setPath(link);

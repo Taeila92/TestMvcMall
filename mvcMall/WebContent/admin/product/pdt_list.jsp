@@ -175,7 +175,7 @@ if (!bcata.equals("")) {	// 대분류를 이용하여 검색한 상태이면(소
 		<option value="id" <% if (schtype.equals("id")) { %>selected="selected"<% } %>>상품 아이디</option>
 		<option value="name" <% if (schtype.equals("name")) { %>selected="selected"<% } %>>상품 이름</option>
 	</select>
-	<input type="text" name="keyword" value="<%=keyword %>" class="date"/>
+	<input type="text" name="keyword" class="date"/>
 </td>
 </tr>
 <tr>
@@ -270,7 +270,7 @@ if (pdtList != null && rcnt > 0) {	// 검색결과가 있으면
 %>
 <td>
 	<div class="pdtBox<%=max%>">
-		<%=lnk %><img src="/mvcMall/product/pdt_img/<%=pdtList.get(i).getPl_img1() %>" width="<%=max == 3 ? 250 : 190 %>" /></a><br />
+		<%=lnk %><img src="/mvcMall/product/pdt_img/<%=pdtList.get(i).getPl_img1() %>" width="<%=max == 3 ? 250 : 190 %>" height="<%=max == 3 ? 200 : 140 %>" /></a><br />
 		<%=lnk + pdtList.get(i).getPl_name() %></a><br />
 		판매가 : <%=pdtList.get(i).getPl_price() %><br />
 		할인가 : 
@@ -285,12 +285,12 @@ if (pdtList != null && rcnt > 0) {	// 검색결과가 있으면
 }
 %>
 </table>
+<br />
 <table width="800" cellpadding="5">
 <tr>
 <td width="*">
 <%
-if (rcnt > 0) { // 검색결과 상품들이 있을 경우에만 페이징을 함
-
+if (rcnt > 0) {	// 검색결과 상품들이 있을 경우에만 페이징을 함
 	if (cpage == 1) {
 		out.println("[<<]&nbsp;&nbsp;[<]&nbsp;&nbsp;");
 	} else {
@@ -301,8 +301,6 @@ if (rcnt > 0) { // 검색결과 상품들이 있을 경우에만 페이징을 �
 	}
 
 	for (int i = 1, j = spage ; i <= bsize && j <= pcnt ; i++, j++) {
-	// i : 루프돌릴 횟수를 지정하기 위해 사용되는 변수
-	// j : 페이지 번호 출력용 변수
 		if (cpage == j) {
 			out.println("&nbsp;<strong>" + j + "</strong>&nbsp;");
 		} else {

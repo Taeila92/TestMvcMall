@@ -20,8 +20,7 @@ public class FreeListSvc {
 		return rcnt;
 	}
 	
-	public ArrayList<FreeInfo> getArticleList(
-		String where, int cpage, int limit) {
+	public ArrayList<FreeInfo> getArticleList(String where, int cpage, int limit) {
 	// 게시글 목록을 ArrayList로 리턴하며, 반드시 FreeInfo형 인스턴스만 저장되어야 함
 	// 매개변수 : 조건, 현재 페이지 번호, 가져올 레코드 개수
 		ArrayList<FreeInfo> articleList = null;

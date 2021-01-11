@@ -45,7 +45,7 @@ public class CartInAction implements Action {
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
-			out.println("alert('장바구니에 담기가 실패했습니다.');");
+			out.println("alert('재고량을 초과하여 장바구니에 담기가 실패했습니다.');");
 			out.println("history.back();");
 			out.println("</script>");
 			out.close();

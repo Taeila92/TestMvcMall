@@ -31,6 +31,10 @@ public class OrdCtrl extends HttpServlet {
 				action = new CartInAction();		break;
 			case "/cart_list.ord" :			// 장바구니 화면
 				action = new CartListAction();		break;
+			case "/cart_del.ord" :			// 장바구니 삭제 기능
+				action = new CartDelAction();		break;
+			case "/cart_up.ord" :			// 장바구니 수정 기능
+				action = new CartUpAction();		break;
 		}
 
 		try {

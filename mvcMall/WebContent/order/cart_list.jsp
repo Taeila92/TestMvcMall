@@ -37,8 +37,8 @@ if (ord != null && !ord.equals(""))			args += "&ord=" + ord;
 </style>
 <script src="jquery-3.5.1.js"></script>
 <script>
-function chOptCnt(idx, pid, oIdx, len) {
-// 상품의 옵션과 수량을 변경시키는 함수
+function chOpt(idx, pid, oIdx, len) {
+// 상품의 옵션을 변경시키는 함수
 // idx : t_cart_list테이블의 PK로 where 절에서 조건으로 사용할 매개변수
 // pid : 상품 아이디로 기존의 장바구니내 상품과 비교하기 위한 매개변수
 // oIdx : cartList의 인덱스번호로 옵션과 수량 컨트롤의 이름을 구하기 위한 매개변수
@@ -56,10 +56,24 @@ function chOptCnt(idx, pid, oIdx, len) {
 
 	$.ajax({
 		type : "POST", 
-		url : "/mvcMall/cart_up.ord", 
+		url : "/mvcMall/cart_up_opt.ord", 
 		data : { "idx" : idx, "pid" : pid, "opt" : opt, "cnt" : cnt }, 
 		success : function(chkRst) {
 			if(chkRst == 0)		alert("선택한 상품 수정에 실패했습니다.\n다시 시도해 주십시오.");
+			else				location.reload();
+		}
+	});
+}
+
+function chCnt(idx, cnt) {	// 상품의 수량을 변경시키는 함수
+	// idx : t_cart_list테이블의 PK로 where 절에서 조건으로 사용할 매개변수
+	// cnt : 변경할 수량 값
+	$.ajax({
+		type : "POST", 
+		url : "/mvcMall/cart_up_cnt.ord", 
+		data : { "idx" : idx, "cnt" : cnt }, 
+		success : function(chkRst) {
+			if(chkRst == 0)		alert("선택한 상품 수량 변경에 실패했습니다.\n다시 시도해 주십시오.");
 			else				location.reload();
 		}
 	});
@@ -125,7 +139,7 @@ if (cartList != null && cartList.size() > 0) {	// 장바구니에 데이터가 �
 			for (int j = 0 ; j < arrOpt.length ; j++) {
 				String[] arrTmp = arrOpt[j].split(",");
 				out.println(arrTmp[0] + " : ");
-				out.println("<select name='opt" + i + j + "' onchange='chOptCnt(" + cartList.get(i).getCl_idx() + ", \"" + cartList.get(i).getPl_id() + "\", " + i + ", " + arrOpt.length + ");'>");
+				out.println("<select name='opt" + i + j + "' onchange='chOpt(" + cartList.get(i).getCl_idx() + ", \"" + cartList.get(i).getPl_id() + "\", " + i + ", " + arrOpt.length + ");'>");
 				for (int k = 1 ; k < arrTmp.length ; k++) {
 					String slt = "";
 					if (arrChoose[j].equals(arrTmp[k]))	slt = " selected='selected'";
@@ -139,7 +153,7 @@ if (cartList != null && cartList.size() > 0) {	// 장바구니에 데이터가 �
 %>
 </td>
 <td>
-	<select name="cnt<%=i%>">
+	<select name="cnt<%=i%>" onchange="chCnt(<%=cartList.get(i).getCl_idx()%>, this.value )">
 <%		for (int j = 1 ; j <= max ; j++) { %>
 		<option value="<%=j%>" <% if (j == cartList.get(i).getCl_cnt()) { %>selected<% } %>><%=j%></option>
 <%		} %>
@@ -154,11 +168,28 @@ if (cartList != null && cartList.size() > 0) {	// 장바구니에 데이터가 �
 %>
 </table>
 <table width="700" cellpadding="25" cellspacing="0">
-<tr><td align="right">총 구매가격 : <span id="total"><%=total %></span> 원</td></tr>
+<tr>
+<td width="*">
+	<input type="button" value="선택 상품 구매" onclick=""/>
+	<input type="button" value="선택 상품 삭제" onclick=""/>
+</td>
+<td width="300" align="right">총 구매가격 : <span id="total"><%=total %></span> 원</td>
+</tr>
+<tr>
+<td colspan="2" align="center">
+	<input type="button" value="전체 구매" onclick=""/>
+	<input type="button" value="계속 쇼핑" onclick="location.href='pdt_list.pdt<%=args%>'"/>
+</td></tr>
 <%
 } else {	// 장바구니에 데이터가 없으면
-	out.println("<tr><td colspan='5'>장바구니가 비었습니다.</td></tr>");
+%>
+<tr><td colspan='6' align='center'>장바구니가 비었습니다.</td></tr>
+<tr><td colspan='6' align='center'>
+	<input type="button" value="계속 쇼핑" onclick="location.href='pdt_list.pdt<%=args%>'"/>
+</td></tr>
+<%
 }
+
 %>
 </table>
 </form>

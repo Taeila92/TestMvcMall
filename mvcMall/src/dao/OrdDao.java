@@ -99,8 +99,8 @@ public class OrdDao {
 		return result;
 	}
 
-	public int cartUpdate(String opt, String cnt, String idx, String pid, String buyer, String isMember) {
-	// 사용자가 선택한 상품의 옵션과 수량을 변경하는 메소드
+	public int cartOptUpdate(String opt, String cnt, String idx, String pid, String buyer, String isMember) {
+	// 사용자가 선택한 상품의 옵션을 변경하는 메소드
 		int result = 0;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -118,13 +118,12 @@ public class OrdDao {
 
 				cartDelete(idx, buyer, isMember);	// 기존의 동일상품은 장바구니에서 삭제
 			} else {	// 기존의 상품들 중 변경하려는 옵션과 동일한 상품이 없으면
-				sql = "update t_cart_list set cl_opt = '" + opt + "', cl_cnt = " + cnt + 
-					" where cl_buyer = '" + buyer + "' and cl_ismember = '" + isMember + 
-					"' and cl_idx = " + idx;
+				sql = "update t_cart_list set cl_opt = '" + opt + "' where cl_buyer = '" + buyer +
+						"' and cl_ismember = '" + isMember + "' and cl_idx = " + idx;
 			}
 			result = stmt.executeUpdate(sql);
 		} catch(Exception e) {
-			System.out.println("cartUpdate() 오류");		e.printStackTrace();
+			System.out.println("cartOptUpdate() 오류");		e.printStackTrace();
 		} finally {
 			close(rs);	close(stmt);
 		}
@@ -132,6 +131,27 @@ public class OrdDao {
 		return result;
 	}
 
+	public int cartCntUpdate(String idx, String cnt, String buyer, String isMember) {
+	// 사용자가 선택한 상품의 옵션을 변경하는 메소드
+		int result = 0;
+		Statement stmt = null;
+
+		try {
+			stmt = conn.createStatement();
+			
+			String sql = "update t_cart_list set cl_cnt = '" + cnt + "' where cl_buyer = '" + 
+				buyer + "' and cl_ismember = '" + isMember + "' and cl_idx = " + idx;
+
+			result = stmt.executeUpdate(sql);
+		} catch(Exception e) {
+			System.out.println("cartCntUpdate() 오류");		e.printStackTrace();
+		} finally {
+			close(stmt);
+		}
+
+		return result;
+	}
+	
 	public int cartDelete(String idx, String buyer, String isMember) {
 	// 사용자가 선택한 상품(들)을 장바구니에서 삭제하는 메소드
 		int result = 0;

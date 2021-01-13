@@ -9,7 +9,7 @@ public class CartDelAction implements Action {
 // 장바구니에 선택한 상품정보를 저장하는 클래스
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
-		String idx = request.getParameter("idx");		// 장바구니 아이디(들)
+		String idx = request.getParameter("idx");		// 장바구니 인덱스(들)
 		
 		String buyer, isMember = "n";
 		HttpSession session = request.getSession();

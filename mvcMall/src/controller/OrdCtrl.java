@@ -37,6 +37,8 @@ public class OrdCtrl extends HttpServlet {
 				action = new CartUpOptAction();		break;
 			case "/cart_up_cnt.ord" :			// 수정 옵션 기능
 				action = new CartUpCntAction();		break;
+			case "/order_form.ord" :			// 구매 폼으로 이동
+				action = new OrdFormAction();		break;
 		}
 
 		try {

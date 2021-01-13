@@ -176,4 +176,52 @@ public class OrdDao {
 
 		return result;
 	}
+
+	public ArrayList<CartInfo> getOrdFrmPdtList(String where, String kind) {
+	// 장바구니나 바로구매를 통해 결제하려는 사용자에게  보여줄 상품목록을 리턴하는 메소드
+		ArrayList<CartInfo> cartList = new ArrayList<CartInfo>();
+		Statement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			String sql = "";
+			if(kind.equals("cart")) { // 장바구니를 통한 구매
+				sql = "select c.cl_idx, p.pl_id, p.pl_name, p.pl_img1, p.pl_opt, c.cl_opt, " + 
+						" c.cl_cnt, p.pl_price, p.pl_discount, p.pl_stock from t_cart_list c, t_product_list p " + 
+						" where c.pl_id = p.pl_id and p.pl_view = 'y' and p.pl_stock != 0 " + where + 
+						" order by p.pl_id, c.cl_opt";
+			} else { // 바로구매를 통한 구매
+				
+			}
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				CartInfo cart = new CartInfo();
+				if(kind.equals("cart")) {
+					cart.setCl_idx(rs.getInt("cl_idx"));
+					cart.setCl_opt(rs.getString("cl_opt"));
+					cart.setCl_cnt(rs.getInt("cl_cnt"));
+				} else {
+					
+				}
+				cart.setPl_id(rs.getString("pl_id"));
+				cart.setPl_name(rs.getString("pl_name"));
+				cart.setPl_img1(rs.getString("pl_img1"));
+				cart.setPl_opt(rs.getString("pl_opt"));
+				int price = rs.getInt("pl_price");
+				if (rs.getInt("pl_discount") > 0) {
+					float rate = (float)rs.getInt("pl_discount") / 100;
+					price = Math.round(price - (price * rate));
+				}	// 상품가격은 할인율이 있을 경우 할인율을 적용한 가격으로 저장함
+				cart.setPrice(price);
+				cartList.add(cart);
+			}
+		} catch(Exception e) {
+			System.out.println("getCartList() 오류");		e.printStackTrace();
+		} finally {
+			close(rs);	close(stmt);
+		}
+
+		return cartList;
+	}
 }

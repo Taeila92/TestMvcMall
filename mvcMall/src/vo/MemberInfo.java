@@ -3,6 +3,7 @@ package vo;
 // 한 명의 회원정보를 저장하기 위한 클래스
 public class MemberInfo {
 	private String mlid, mlpwd, mlname, mlgender, mlbirth, mlphone, mlemail, mldate, mllast, mlstatus;
+	private String mazip, maaddr1, maaddr2;
 	private int mlpoint;
 	public String getMlid() {
 		return mlid;
@@ -64,10 +65,29 @@ public class MemberInfo {
 	public void setMlstatus(String mlstatus) {
 		this.mlstatus = mlstatus;
 	}
+	public String getMazip() {
+		return mazip;
+	}
+	public void setMazip(String mazip) {
+		this.mazip = mazip;
+	}
+	public String getMaaddr1() {
+		return maaddr1;
+	}
+	public void setMaaddr1(String maaddr1) {
+		this.maaddr1 = maaddr1;
+	}
+	public String getMaaddr2() {
+		return maaddr2;
+	}
+	public void setMaaddr2(String maaddr2) {
+		this.maaddr2 = maaddr2;
+	}
 	public int getMlpoint() {
 		return mlpoint;
 	}
 	public void setMlpoint(int mlpoint) {
 		this.mlpoint = mlpoint;
 	}
+	
 }

@@ -40,9 +40,11 @@ public class LoginDao {
 		try {
 			stmt = conn.createStatement();
 			// 쿼리를 운반할 Statement생성
-			String sql = "select * from t_member_list " + 
-				" where ml_status = 'a' and ml_id = '" + uid + 
-				"' and ml_pwd = '" + pwd + "'";
+			String sql = "select m.*, a.ma_zip, a.ma_addr1, a.ma_addr2 " + 
+					"from t_member_list m, t_member_addr a " + 
+					" where m.ml_id = a.ml_id and m.ml_status != 'c' and a.ma_basic = 'y' " + 
+					" and m.ml_id = '" + uid + "' and m.ml_pwd = '" + pwd + "'";
+
 			rs = stmt.executeQuery(sql);
 			// 쿼리 실행 결과를 ResultSet에 담음
 			if (rs.next()) {	// 로그인 성공시
@@ -58,8 +60,11 @@ public class LoginDao {
 				loginMember.setMlemail(rs.getString("ml_email"));
 				loginMember.setMldate(rs.getString("ml_date"));
 				loginMember.setMllast(rs.getString("ml_last"));
-				loginMember.setMlstatus("a");
+				loginMember.setMlstatus(rs.getString("ml_status"));
 				loginMember.setMlpoint(rs.getInt("ml_point"));
+				loginMember.setMazip(rs.getString("ma_zip"));
+				loginMember.setMaaddr1(rs.getString("ma_addr1"));
+				loginMember.setMaaddr2(rs.getString("ma_addr2"));
 				// MemberInfo클래스의 인스턴스 loginMember에 회원정보를 저장
 			}
 			// 로그인 실패시에는 loginMember에 따로 데이터를 담지 않고 null로 리턴

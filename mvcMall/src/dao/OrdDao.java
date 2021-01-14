@@ -118,12 +118,12 @@ public class OrdDao {
 
 				cartDelete(idx, buyer, isMember);	// 기존의 동일상품은 장바구니에서 삭제
 			} else {	// 기존의 상품들 중 변경하려는 옵션과 동일한 상품이 없으면
-				sql = "update t_cart_list set cl_opt = '" + opt + "' where cl_buyer = '" + buyer +
-						"' and cl_ismember = '" + isMember + "' and cl_idx = " + idx;
+				sql = "update t_cart_list set cl_opt = '" + opt + "' where cl_buyer = '" + 
+					buyer + "' and cl_ismember = '" + isMember + "' and cl_idx = " + idx;
 			}
 			result = stmt.executeUpdate(sql);
 		} catch(Exception e) {
-			System.out.println("cartOptUpdate() 오류");		e.printStackTrace();
+			System.out.println("cartUpdate() 오류");		e.printStackTrace();
 		} finally {
 			close(rs);	close(stmt);
 		}
@@ -131,17 +131,15 @@ public class OrdDao {
 		return result;
 	}
 
-	public int cartCntUpdate(String idx, String cnt, String buyer, String isMember) {
-	// 사용자가 선택한 상품의 옵션을 변경하는 메소드
+	public int cartCntUpdate(String cnt, String idx, String buyer, String isMember) {
+	// 사용자가 선택한 상품의 수량을 변경하는 메소드
 		int result = 0;
 		Statement stmt = null;
 
 		try {
 			stmt = conn.createStatement();
-			
 			String sql = "update t_cart_list set cl_cnt = '" + cnt + "' where cl_buyer = '" + 
 				buyer + "' and cl_ismember = '" + isMember + "' and cl_idx = " + idx;
-
 			result = stmt.executeUpdate(sql);
 		} catch(Exception e) {
 			System.out.println("cartCntUpdate() 오류");		e.printStackTrace();
@@ -151,7 +149,7 @@ public class OrdDao {
 
 		return result;
 	}
-	
+
 	public int cartDelete(String idx, String buyer, String isMember) {
 	// 사용자가 선택한 상품(들)을 장바구니에서 삭제하는 메소드
 		int result = 0;
@@ -177,33 +175,35 @@ public class OrdDao {
 		return result;
 	}
 
-	public ArrayList<CartInfo> getOrdFrmPdtList(String where, String kind) {
-	// 장바구니나 바로구매를 통해 결제하려는 사용자에게  보여줄 상품목록을 리턴하는 메소드
-		ArrayList<CartInfo> cartList = new ArrayList<CartInfo>();
+	public ArrayList<CartInfo> getOrdFrmPdtList(String kind, String where) {
+	// 장바구니나 바로구매를 통해 결제하려는 사용자에게 보여줄 상품목록을 리턴하는 메소드
+		ArrayList<CartInfo> pdtList = new ArrayList<CartInfo>();
 		Statement stmt = null;
 		ResultSet rs = null;
 
 		try {
 			String sql = "";
-			if(kind.equals("cart")) { // 장바구니를 통한 구매
+			if (kind.equals("cart")) {	// 장바구니를 통한 구매일 경우
 				sql = "select c.cl_idx, p.pl_id, p.pl_name, p.pl_img1, p.pl_opt, c.cl_opt, " + 
-						" c.cl_cnt, p.pl_price, p.pl_discount, p.pl_stock from t_cart_list c, t_product_list p " + 
-						" where c.pl_id = p.pl_id and p.pl_view = 'y' and p.pl_stock != 0 " + where + 
-						" order by p.pl_id, c.cl_opt";
-			} else { // 바로구매를 통한 구매
+				" c.cl_cnt, p.pl_price, p.pl_discount, p.pl_stock from t_cart_list c, t_product_list p " + 
+				" where c.pl_id = p.pl_id and p.pl_view = 'y' and p.pl_stock != 0 " + where + 
+				" order by p.pl_id, c.cl_opt";
+			} else {	// 바로 구매를 통한 구매일 경우
 				
 			}
+			System.out.println(sql);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			while (rs.next()) {
 				CartInfo cart = new CartInfo();
-				if(kind.equals("cart")) {
+				if (kind.equals("cart")) {
 					cart.setCl_idx(rs.getInt("cl_idx"));
 					cart.setCl_opt(rs.getString("cl_opt"));
 					cart.setCl_cnt(rs.getInt("cl_cnt"));
 				} else {
 					
 				}
+
 				cart.setPl_id(rs.getString("pl_id"));
 				cart.setPl_name(rs.getString("pl_name"));
 				cart.setPl_img1(rs.getString("pl_img1"));
@@ -214,14 +214,14 @@ public class OrdDao {
 					price = Math.round(price - (price * rate));
 				}	// 상품가격은 할인율이 있을 경우 할인율을 적용한 가격으로 저장함
 				cart.setPrice(price);
-				cartList.add(cart);
+				pdtList.add(cart);
 			}
 		} catch(Exception e) {
-			System.out.println("getCartList() 오류");		e.printStackTrace();
+			System.out.println("getOrdFrmPdtList() 오류");		e.printStackTrace();
 		} finally {
 			close(rs);	close(stmt);
 		}
 
-		return cartList;
+		return pdtList;
 	}
 }
